@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><title>Fixture 03 – E-Commerce Checkout</title>
+<style>body{font-family:sans-serif;max-width:600px;margin:30px auto;padding:0 20px}h1{font-size:20px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}label{display:block;font-size:13px;font-weight:600;color:#444;margin-bottom:4px}input,select{width:100%;padding:8px;border:1px solid #ccc;border-radius:5px;box-sizing:border-box}.full{grid-column:1/-1}img.product{width:80px;height:80px;object-fit:cover;border-radius:6px;background:#ddd}.item{display:flex;gap:12px;align-items:center;margin-bottom:16px;padding:12px;border:1px solid #eee;border-radius:8px}.btn{width:100%;padding:12px;background:#16a34a;color:#fff;border:none;border-radius:8px;font-size:16px;font-weight:700;cursor:pointer;margin-top:20px}</style>
+</head>
+<body>
+<h1>Checkout</h1>
+<!-- Product image – will be an IMG element that DOM can see but text inside is not in DOM -->
+<div class="item">
+  <img class="product" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect width='80' height='80' fill='%23e2e8f0'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='10' fill='%23666'%3EProduct%3C/text%3E%3C/svg%3E" alt="Product thumbnail">
+  <div>
+    <strong>Premium Widget Pro</strong><br>
+    <span>₹2,499 × 1</span>
+  </div>
+</div>
+
+<h2 style="font-size:16px">Delivery Address</h2>
+<div class="grid">
+  <div><label>First Name<input type="text" autocomplete="given-name" placeholder="Rahul"></label></div>
+  <div><label>Last Name<input type="text" autocomplete="family-name" placeholder="Sharma"></label></div>
+  <div class="full"><label>Address Line 1<input type="text" autocomplete="address-line1" placeholder="Flat 4B, Example Apartments"></label></div>
+  <div><label>City<input type="text" autocomplete="address-level2" placeholder="Mumbai"></label></div>
+  <div><label>PIN Code<input type="text" autocomplete="postal-code" placeholder="400001"></label></div>
+  <div class="full"><label>Phone<input type="tel" autocomplete="tel" placeholder="+91 00000 00000"></label></div>
+</div>
+
+<h2 style="font-size:16px;margin-top:20px">Payment</h2>
+<div class="grid">
+  <div class="full"><label>Card Number<input type="text" autocomplete="cc-number" placeholder="0000 0000 0000 0000"></label></div>
+  <div><label>Expiry<input type="text" autocomplete="cc-exp" placeholder="MM/YY"></label></div>
+  <div><label>CVV<input type="password" autocomplete="cc-csc" placeholder="•••"></label></div>
+</div>
+
+<button type="button" class="btn">Review Order</button>
+</body></html>

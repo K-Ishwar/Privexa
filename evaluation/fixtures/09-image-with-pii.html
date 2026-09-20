@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><title>Fixture 09 – Image-Heavy Page with Embedded Text</title>
+<style>body{font-family:sans-serif;max-width:600px;margin:30px auto;padding:0 20px}h1{font-size:18px}canvas{display:block;border-radius:8px;margin:12px 0}label{display:block;font-size:13px;font-weight:600;margin-top:14px}input{width:100%;padding:8px;border:1px solid #ddd;border-radius:5px;box-sizing:border-box;margin-top:4px}.btn{margin-top:20px;padding:10px 22px;background:#7c3aed;color:#fff;border:none;border-radius:7px;cursor:pointer;font-size:14px;font-weight:600}</style>
+</head>
+<body>
+<h1>Document Upload & Verification</h1>
+<p style="color:#666;font-size:13px">Upload your ID document. The preview below is a sample.</p>
+
+<!-- Rendered Aadhaar card simulation on canvas — sensitive data in image pixels -->
+<canvas id="aadhaarPreview" width="560" height="220"></canvas>
+
+<!-- Profile photo upload with face -->
+<canvas id="photoPreview" width="120" height="150" style="border-radius:6px"></canvas>
+
+<!-- Standard DOM section below the images -->
+<div style="margin-top:20px">
+  <label>Confirm your Aadhaar number (last 4 digits)<input type="text" maxlength="4" placeholder="XXXX"></label>
+  <label>Date of Birth<input type="date"></label>
+  <button class="btn" type="button">Next</button>
+</div>
+
+<script>
+// Draw a simulated Aadhaar card with PII inside pixels
+const ac = document.getElementById('aadhaarPreview');
+const aCtx = ac.getContext('2d');
+
+// Card background
+const grad = aCtx.createLinearGradient(0, 0, 560, 0);
+grad.addColorStop(0, '#1a237e');
+grad.addColorStop(1, '#283593');
+aCtx.fillStyle = grad;
+aCtx.fillRect(0, 0, 560, 220);
+
+// White content area
+aCtx.fillStyle = '#ffffff';
+aCtx.fillRect(140, 15, 405, 190);
+
+// UIDAI logo text
+aCtx.fillStyle = '#1a237e';
+aCtx.font = 'bold 11px sans-serif';
+aCtx.fillText('UNIQUE IDENTIFICATION AUTHORITY OF INDIA', 150, 35);
+aCtx.font = 'bold 14px sans-serif';
+aCtx.fillText('Aadhaar', 150, 52);
+
+// Fake PII on the card — this is the critical test
+// This text exists ONLY in pixels, not in DOM
+aCtx.fillStyle = '#212121';
+aCtx.font = '13px sans-serif';
+aCtx.fillText('Rahul Kumar Example', 150, 80);
+aCtx.fillText('DOB: 15/08/1990', 150, 100);
+aCtx.fillText('Male', 150, 118);
+
+aCtx.font = 'bold 18px monospace';
+aCtx.fillText('1234 5678 9012', 150, 150);
+
+aCtx.font = '11px sans-serif';
+aCtx.fillStyle = '#546e7a';
+aCtx.fillText('This is a sample/dummy card for testing purposes only.', 150, 180);
+
+// Left blue section — hologram simulation
+aCtx.fillStyle = 'rgba(255,255,255,0.15)';
+for (let i = 0; i < 6; i++) {
+  aCtx.beginPath();
+  aCtx.arc(70, 60 + i * 25, 18 - i * 1.5, 0, Math.PI * 2);
+  aCtx.stroke();
+}
+aCtx.fillStyle = '#fff';
+aCtx.font = 'bold 9px sans-serif';
+aCtx.fillText('AADHAAR', 38, 200);
+
+// Photo placeholder on the card
+const photo = document.getElementById('photoPreview');
+const pCtx = photo.getContext('2d');
+pCtx.fillStyle = '#90caf9';
+pCtx.fillRect(0, 0, 120, 150);
+pCtx.fillStyle = '#1565c0';
+pCtx.font = 'bold 12px sans-serif';
+pCtx.fillText('[PERSON PHOTO]', 5, 75);
+</script>
+</body></html>

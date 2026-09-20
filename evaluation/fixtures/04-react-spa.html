@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><title>Fixture 04 – React SPA (Simulated)</title>
+<style>body{font-family:sans-serif;margin:0;background:#0f172a;color:#e2e8f0}.nav{background:#1e293b;padding:14px 24px;display:flex;justify-content:space-between;align-items:center}.nav span{color:#94a3b8;font-size:14px}.app{max-width:500px;margin:40px auto;padding:0 20px}.card{background:#1e293b;border-radius:12px;padding:28px;border:1px solid #334155}h1{color:#f1f5f9;font-size:20px;margin:0 0 20px}label{display:block;font-size:13px;color:#94a3b8;font-weight:600;margin-top:14px;margin-bottom:5px}input,textarea{width:100%;padding:9px 12px;background:#0f172a;border:1px solid #475569;border-radius:7px;color:#f1f5f9;box-sizing:border-box;font-size:14px}textarea{height:90px;resize:none}.actions{display:flex;gap:10px;margin-top:20px}.btn{padding:10px 20px;border:none;border-radius:7px;cursor:pointer;font-size:14px;font-weight:600}.btn-primary{background:#6366f1;color:#fff}.btn-secondary{background:#334155;color:#e2e8f0}</style>
+</head>
+<body>
+<!-- Nav bar – role="button" elements, not <button> tags -->
+<nav class="nav">
+  <strong>MyApp</strong>
+  <div>
+    <span role="button" tabindex="0" style="cursor:pointer;margin-right:16px">Back</span>
+    <span role="button" tabindex="0" style="cursor:pointer">Cancel</span>
+  </div>
+</nav>
+
+<div class="app">
+  <div class="card">
+    <h1>New Support Ticket</h1>
+    <!-- Deep div nesting, no semantic form tag (common in React SPAs) -->
+    <div>
+      <div>
+        <label>Your Name</label>
+        <input type="text" placeholder="Full name" autocomplete="name">
+      </div>
+      <div>
+        <label>Email</label>
+        <input type="email" placeholder="you@example.com" autocomplete="email">
+      </div>
+      <div>
+        <label>Issue Description</label>
+        <textarea placeholder="Describe your issue..."></textarea>
+      </div>
+      <div>
+        <!-- Custom div-based checkbox -->
+        <div role="checkbox" aria-checked="false" tabindex="0" style="display:flex;gap:8px;align-items:center;cursor:pointer;margin-top:14px">
+          <div style="width:18px;height:18px;border:2px solid #6366f1;border-radius:3px"></div>
+          <span style="color:#cbd5e1;font-size:13px">I agree to privacy policy</span>
+        </div>
+      </div>
+      <div class="actions">
+        <div role="button" tabindex="0" class="btn btn-primary">Next</div>
+        <div role="button" tabindex="0" class="btn btn-secondary">Cancel</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body></html>

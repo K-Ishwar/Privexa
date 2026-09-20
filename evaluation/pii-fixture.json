@@ -1,0 +1,16 @@
+{
+  "description": "Synthetic-only PII labeling fixture; no record belongs to a real person.",
+  "label_set": ["PERSON_NAME", "EMAIL", "PHONE", "AADHAAR", "PAN", "ADDRESS", "PASSWORD", "NONE"],
+  "records": [
+    {"id": "synthetic-name-01", "text": "Aarav Example", "labels": ["PERSON_NAME"], "hard_negative": false},
+    {"id": "synthetic-email-01", "text": "aarav@example.invalid", "labels": ["EMAIL"], "hard_negative": false},
+    {"id": "synthetic-phone-01", "text": "+91 00000 00000", "labels": ["PHONE"], "hard_negative": false},
+    {"id": "synthetic-aadhaar-unicode-01", "text": "आधार: १२३४ ५६७८ ९०१२", "labels": ["AADHAAR"], "hard_negative": false},
+    {"id": "synthetic-pan-01", "text": "ABCDE0000F", "labels": ["PAN"], "hard_negative": false},
+    {"id": "synthetic-address-01", "text": "12 Example Lane, Demo Nagar", "labels": ["ADDRESS"], "hard_negative": false},
+    {"id": "hard-negative-pan-word", "text": "PAN card counter opens at 10 AM", "labels": ["NONE"], "hard_negative": true},
+    {"id": "hard-negative-short-code", "text": "Help desk code: 1234", "labels": ["NONE"], "hard_negative": true},
+    {"id": "hard-negative-field-label", "text": "Full name (optional)", "labels": ["NONE"], "hard_negative": true},
+    {"id": "hard-negative-currency", "text": "Application fee: ₹1,200", "labels": ["NONE"], "hard_negative": true}
+  ]
+}

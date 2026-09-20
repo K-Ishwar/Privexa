@@ -1,0 +1,752 @@
+{
+  "experimentVersion": "1.0",
+  "runAt": "2026-09-10T11:36:45.278Z",
+  "description": "Step 1: DOM scan gap analysis across 10 representative page types. Records what the existing DOM+OCR pipeline finds and where it is blind.",
+  "summary": {
+    "totalFixtures": 10,
+    "gapDetectionAccuracy": "10/10",
+    "fixturesWithVisualGap": 4,
+    "fixturesWithNoGap": 6,
+    "averageScanMs": 19,
+    "criticalGaps": [
+      {
+        "fixture": "[05] Canvas-Only Form (CRITICAL GAP)",
+        "visualOnly": {
+          "inputs": 4,
+          "checkboxes": 1,
+          "buttons": 2
+        }
+      },
+      {
+        "fixture": "[06] Mixed DOM + Canvas",
+        "visualOnly": {
+          "canvases": 2,
+          "textInPixels": "X7R2P captcha code — only OCR/ViT can read this"
+        }
+      },
+      {
+        "fixture": "[09] Image with PII in Pixels",
+        "visualOnly": {
+          "pixelPii": [
+            "Name: Rahul Kumar Example (canvas)",
+            "DOB: 15/08/1990 (canvas)",
+            "Aadhaar: 1234 5678 9012 (canvas)",
+            "Person face (canvas)"
+          ]
+        }
+      }
+    ]
+  },
+  "fixtures": [
+    {
+      "fixtureId": "01",
+      "fixtureName": "Standard HTML Form",
+      "durationMs": 43,
+      "totalElementsFound": 17,
+      "roleBreakdown": {
+        "TEXT": 8,
+        "INPUT": 5,
+        "SELECT": 1,
+        "CHECKBOX": 1,
+        "BUTTON": 2
+      },
+      "piiLabels": [
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PERSON_NAME]",
+        "[PRIVATE_TEXT]",
+        "[EMAIL]",
+        "[PRIVATE_TEXT]",
+        "[PHONE]",
+        "[PRIVATE_TEXT]",
+        "[AADHAAR]",
+        "[PRIVATE_TEXT]",
+        "[PAN]",
+        "[PRIVATE_TEXT]",
+        "[ADDRESS]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]"
+      ],
+      "safeLabels": [
+        "CHECKBOX",
+        "CONTINUE"
+      ],
+      "visualFallbackNeeded": false,
+      "expectedVisualFallback": false,
+      "gapDetectionCorrect": true,
+      "groundTruthComparison": {
+        "inputs": {
+          "expected": 5,
+          "found": 5,
+          "delta": 0
+        },
+        "buttons": {
+          "expected": 1,
+          "found": 2,
+          "delta": 1
+        },
+        "selects": {
+          "expected": 1,
+          "found": 1,
+          "delta": 0
+        },
+        "checkboxes": {
+          "expected": 1,
+          "found": 1,
+          "delta": 0
+        },
+        "images": {
+          "expected": 0,
+          "found": 0,
+          "delta": 0
+        },
+        "links": {
+          "expected": 0,
+          "found": 0,
+          "delta": 0
+        }
+      },
+      "knownGapDescription": "None expected — fully DOM-based page.",
+      "visualOnlyElements": null,
+      "domPii": null
+    },
+    {
+      "fixtureId": "02",
+      "fixtureName": "Login Page",
+      "durationMs": 16,
+      "totalElementsFound": 9,
+      "roleBreakdown": {
+        "TEXT": 3,
+        "INPUT": 2,
+        "BUTTON": 2,
+        "LINK": 2
+      },
+      "piiLabels": [
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[EMAIL]",
+        "[PRIVATE_TEXT]",
+        "[PASSWORD]",
+        "[PASSWORD]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]"
+      ],
+      "safeLabels": [
+        "CONTINUE"
+      ],
+      "visualFallbackNeeded": false,
+      "expectedVisualFallback": false,
+      "gapDetectionCorrect": true,
+      "groundTruthComparison": {
+        "inputs": {
+          "expected": 2,
+          "found": 2,
+          "delta": 0
+        },
+        "buttons": {
+          "expected": 1,
+          "found": 2,
+          "delta": 1
+        },
+        "selects": {
+          "expected": 0,
+          "found": 0,
+          "delta": 0
+        },
+        "checkboxes": {
+          "expected": 0,
+          "found": 0,
+          "delta": 0
+        },
+        "images": {
+          "expected": 0,
+          "found": 0,
+          "delta": 0
+        },
+        "links": {
+          "expected": 2,
+          "found": 2,
+          "delta": 0
+        }
+      },
+      "knownGapDescription": "None expected — fully DOM-based page.",
+      "visualOnlyElements": null,
+      "domPii": null
+    },
+    {
+      "fixtureId": "03",
+      "fixtureName": "E-Commerce Checkout",
+      "durationMs": 22,
+      "totalElementsFound": 26,
+      "roleBreakdown": {
+        "TEXT": 14,
+        "IMAGE": 1,
+        "INPUT": 9,
+        "BUTTON": 2
+      },
+      "piiLabels": [
+        "[PRIVATE_TEXT]",
+        "[IMAGE]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PERSON_NAME]",
+        "[PRIVATE_TEXT]",
+        "[PERSON_NAME]",
+        "[PRIVATE_TEXT]",
+        "[ADDRESS]",
+        "[PRIVATE_TEXT]",
+        "[ADDRESS]",
+        "[PRIVATE_TEXT]",
+        "[PASSWORD]",
+        "[PRIVATE_TEXT]",
+        "[PHONE]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PAYMENT]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PASSWORD]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]"
+      ],
+      "safeLabels": [
+        "FIELD"
+      ],
+      "visualFallbackNeeded": true,
+      "expectedVisualFallback": true,
+      "gapDetectionCorrect": true,
+      "groundTruthComparison": {
+        "inputs": {
+          "expected": 9,
+          "found": 9,
+          "delta": 0
+        },
+        "buttons": {
+          "expected": 1,
+          "found": 2,
+          "delta": 1
+        },
+        "selects": {
+          "expected": 0,
+          "found": 0,
+          "delta": 0
+        },
+        "checkboxes": {
+          "expected": 0,
+          "found": 0,
+          "delta": 0
+        },
+        "images": {
+          "expected": 1,
+          "found": 1,
+          "delta": 0
+        },
+        "links": {
+          "expected": 0,
+          "found": 0,
+          "delta": 0
+        }
+      },
+      "knownGapDescription": "Product image text is in alt/pixels, not DOM text. DOM sees IMG but not its visual content.",
+      "visualOnlyElements": null,
+      "domPii": null
+    },
+    {
+      "fixtureId": "04",
+      "fixtureName": "React SPA (Role-based elements)",
+      "durationMs": 18,
+      "totalElementsFound": 14,
+      "roleBreakdown": {
+        "BUTTON": 5,
+        "TEXT": 6,
+        "INPUT": 3
+      },
+      "piiLabels": [
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PERSON_NAME]",
+        "[PRIVATE_TEXT]",
+        "[EMAIL]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]"
+      ],
+      "safeLabels": [
+        "BACK",
+        "CANCEL",
+        "FIELD",
+        "NEXT",
+        "CANCEL"
+      ],
+      "visualFallbackNeeded": false,
+      "expectedVisualFallback": false,
+      "gapDetectionCorrect": true,
+      "groundTruthComparison": {
+        "inputs": {
+          "expected": 2,
+          "found": 3,
+          "delta": 1
+        },
+        "buttons": {
+          "expected": 4,
+          "found": 5,
+          "delta": 1
+        },
+        "selects": {
+          "expected": 0,
+          "found": 0,
+          "delta": 0
+        },
+        "checkboxes": {
+          "expected": 1,
+          "found": 0,
+          "delta": -1
+        },
+        "images": {
+          "expected": 0,
+          "found": 0,
+          "delta": 0
+        },
+        "links": {
+          "expected": 0,
+          "found": 0,
+          "delta": 0
+        }
+      },
+      "knownGapDescription": "Depends on whether roleAndKind() detects role=\"button\" on div and role=\"checkbox\" on div.",
+      "visualOnlyElements": null,
+      "domPii": null
+    },
+    {
+      "fixtureId": "05",
+      "fixtureName": "Canvas-Only Form (CRITICAL GAP)",
+      "durationMs": 13,
+      "totalElementsFound": 4,
+      "roleBreakdown": {
+        "TEXT": 2,
+        "IMAGE": 1,
+        "BUTTON": 1
+      },
+      "piiLabels": [
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[IMAGE]",
+        "[PRIVATE_TEXT]"
+      ],
+      "safeLabels": [],
+      "visualFallbackNeeded": true,
+      "expectedVisualFallback": true,
+      "gapDetectionCorrect": true,
+      "groundTruthComparison": {
+        "inputs": {
+          "expected": 0,
+          "found": 0,
+          "delta": 0
+        },
+        "buttons": {
+          "expected": 0,
+          "found": 1,
+          "delta": 1
+        },
+        "selects": {
+          "expected": 0,
+          "found": 0,
+          "delta": 0
+        },
+        "checkboxes": {
+          "expected": 0,
+          "found": 0,
+          "delta": 0
+        },
+        "images": {
+          "expected": 0,
+          "found": 1,
+          "delta": 1
+        },
+        "links": {
+          "expected": 0,
+          "found": 0,
+          "delta": 0
+        }
+      },
+      "knownGapDescription": "CRITICAL: All form elements drawn on canvas. DOM scanner finds <canvas> tag only. Visual model needed for Back/Continue button coordinates.",
+      "visualOnlyElements": {
+        "inputs": 4,
+        "checkboxes": 1,
+        "buttons": 2
+      },
+      "domPii": null
+    },
+    {
+      "fixtureId": "06",
+      "fixtureName": "Mixed DOM + Canvas",
+      "durationMs": 17,
+      "totalElementsFound": 17,
+      "roleBreakdown": {
+        "TEXT": 9,
+        "INPUT": 4,
+        "IMAGE": 2,
+        "BUTTON": 2
+      },
+      "piiLabels": [
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PERSON_NAME]",
+        "[PRIVATE_TEXT]",
+        "[EMAIL]",
+        "[PRIVATE_TEXT]",
+        "[PHONE]",
+        "[PRIVATE_TEXT]",
+        "[IMAGE]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[IMAGE]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]"
+      ],
+      "safeLabels": [
+        "FIELD",
+        "CONTINUE"
+      ],
+      "visualFallbackNeeded": true,
+      "expectedVisualFallback": true,
+      "gapDetectionCorrect": true,
+      "groundTruthComparison": {
+        "inputs": {
+          "expected": 4,
+          "found": 4,
+          "delta": 0
+        },
+        "buttons": {
+          "expected": 1,
+          "found": 2,
+          "delta": 1
+        },
+        "selects": {
+          "expected": 0,
+          "found": 0,
+          "delta": 0
+        },
+        "checkboxes": {
+          "expected": 0,
+          "found": 0,
+          "delta": 0
+        },
+        "images": {
+          "expected": 0,
+          "found": 2,
+          "delta": 2
+        },
+        "links": {
+          "expected": 0,
+          "found": 0,
+          "delta": 0
+        }
+      },
+      "knownGapDescription": "Signature pad and captcha text exist only in canvas pixels. OCR could read captcha. DOM handles name/email/phone/button fine.",
+      "visualOnlyElements": {
+        "canvases": 2,
+        "textInPixels": "X7R2P captcha code — only OCR/ViT can read this"
+      },
+      "domPii": null
+    },
+    {
+      "fixtureId": "07",
+      "fixtureName": "AI Chat Interface",
+      "durationMs": 15,
+      "totalElementsFound": 11,
+      "roleBreakdown": {
+        "BUTTON": 6,
+        "INPUT": 1,
+        "TEXT": 4
+      },
+      "piiLabels": [
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]"
+      ],
+      "safeLabels": [
+        "FIELD",
+        "CONTINUE"
+      ],
+      "visualFallbackNeeded": false,
+      "expectedVisualFallback": false,
+      "gapDetectionCorrect": true,
+      "groundTruthComparison": {
+        "inputs": {
+          "expected": 1,
+          "found": 1,
+          "delta": 0
+        },
+        "buttons": {
+          "expected": 5,
+          "found": 6,
+          "delta": 1
+        },
+        "selects": {
+          "expected": 0,
+          "found": 0,
+          "delta": 0
+        },
+        "checkboxes": {
+          "expected": 0,
+          "found": 0,
+          "delta": 0
+        },
+        "images": {
+          "expected": 0,
+          "found": 0,
+          "delta": 0
+        },
+        "links": {
+          "expected": 0,
+          "found": 0,
+          "delta": 0
+        }
+      },
+      "knownGapDescription": "None expected IF role=\"button\" on div chips are detected. This tests ARIA role support in content.ts.",
+      "visualOnlyElements": null,
+      "domPii": null
+    },
+    {
+      "fixtureId": "08",
+      "fixtureName": "Banking Portal",
+      "durationMs": 17,
+      "totalElementsFound": 22,
+      "roleBreakdown": {
+        "LINK": 4,
+        "TEXT": 9,
+        "SELECT": 1,
+        "INPUT": 5,
+        "BUTTON": 3
+      },
+      "piiLabels": [
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PERSON_NAME]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]"
+      ],
+      "safeLabels": [
+        "SELECT",
+        "FIELD",
+        "FIELD",
+        "FIELD",
+        "FIELD",
+        "BACK",
+        "REVIEW"
+      ],
+      "visualFallbackNeeded": false,
+      "expectedVisualFallback": false,
+      "gapDetectionCorrect": true,
+      "groundTruthComparison": {
+        "inputs": {
+          "expected": 5,
+          "found": 5,
+          "delta": 0
+        },
+        "buttons": {
+          "expected": 2,
+          "found": 3,
+          "delta": 1
+        },
+        "selects": {
+          "expected": 1,
+          "found": 1,
+          "delta": 0
+        },
+        "checkboxes": {
+          "expected": 0,
+          "found": 0,
+          "delta": 0
+        },
+        "images": {
+          "expected": 0,
+          "found": 0,
+          "delta": 0
+        },
+        "links": {
+          "expected": 4,
+          "found": 4,
+          "delta": 0
+        }
+      },
+      "knownGapDescription": "None expected — fully DOM-based. Tests financial form accuracy.",
+      "visualOnlyElements": null,
+      "domPii": null
+    },
+    {
+      "fixtureId": "09",
+      "fixtureName": "Image with PII in Pixels",
+      "durationMs": 14,
+      "totalElementsFound": 10,
+      "roleBreakdown": {
+        "TEXT": 4,
+        "IMAGE": 2,
+        "INPUT": 2,
+        "BUTTON": 2
+      },
+      "piiLabels": [
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[IMAGE]",
+        "[IMAGE]",
+        "[PRIVATE_TEXT]",
+        "[AADHAAR]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]"
+      ],
+      "safeLabels": [
+        "FIELD",
+        "NEXT"
+      ],
+      "visualFallbackNeeded": true,
+      "expectedVisualFallback": true,
+      "gapDetectionCorrect": true,
+      "groundTruthComparison": {
+        "inputs": {
+          "expected": 2,
+          "found": 2,
+          "delta": 0
+        },
+        "buttons": {
+          "expected": 1,
+          "found": 2,
+          "delta": 1
+        },
+        "selects": {
+          "expected": 0,
+          "found": 0,
+          "delta": 0
+        },
+        "checkboxes": {
+          "expected": 0,
+          "found": 0,
+          "delta": 0
+        },
+        "images": {
+          "expected": 0,
+          "found": 2,
+          "delta": 2
+        },
+        "links": {
+          "expected": 0,
+          "found": 0,
+          "delta": 0
+        }
+      },
+      "knownGapDescription": "CRITICAL: Aadhaar number, name, DOB drawn in canvas pixels. DOM scanner cannot see this PII. This is the privacy leak gap that OCR + NER would close.",
+      "visualOnlyElements": {
+        "pixelPii": [
+          "Name: Rahul Kumar Example (canvas)",
+          "DOB: 15/08/1990 (canvas)",
+          "Aadhaar: 1234 5678 9012 (canvas)",
+          "Person face (canvas)"
+        ]
+      },
+      "domPii": null
+    },
+    {
+      "fixtureId": "10",
+      "fixtureName": "PDF-like Document",
+      "durationMs": 18,
+      "totalElementsFound": 25,
+      "roleBreakdown": {
+        "TEXT": 24,
+        "BUTTON": 1
+      },
+      "piiLabels": [
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PAN]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[EMAIL]",
+        "[PRIVATE_TEXT]",
+        "[AADHAAR]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]",
+        "[PRIVATE_TEXT]"
+      ],
+      "safeLabels": [],
+      "visualFallbackNeeded": false,
+      "expectedVisualFallback": false,
+      "gapDetectionCorrect": true,
+      "groundTruthComparison": {
+        "inputs": {
+          "expected": 0,
+          "found": 0,
+          "delta": 0
+        },
+        "buttons": {
+          "expected": 0,
+          "found": 1,
+          "delta": 1
+        },
+        "selects": {
+          "expected": 0,
+          "found": 0,
+          "delta": 0
+        },
+        "checkboxes": {
+          "expected": 0,
+          "found": 0,
+          "delta": 0
+        },
+        "images": {
+          "expected": 0,
+          "found": 0,
+          "delta": 0
+        },
+        "links": {
+          "expected": 0,
+          "found": 0,
+          "delta": 0
+        }
+      },
+      "knownGapDescription": "None for DOM — PII is in DOM text nodes and should be found by NER/regex. For real Chrome PDF viewer: entire page would be canvas, making this a gap. This fixture tests HTML-rendered-PDF scenario.",
+      "visualOnlyElements": null,
+      "domPii": [
+        "Rahul Kumar Example (TEXT node)",
+        "ABCDE0000F (PAN in TEXT node)",
+        "1234 5678 9012 (Aadhaar in TEXT node)",
+        "+91 00000 00000 (phone in TEXT node)",
+        "rahul.example@example.invalid (email in TEXT node)"
+      ]
+    }
+  ]
+}

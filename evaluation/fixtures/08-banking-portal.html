@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><title>Fixture 08 – Banking Portal</title>
+<style>body{font-family:sans-serif;margin:0;background:#f8fafc}.nav{background:#1a3c5e;color:#fff;padding:14px 28px;display:flex;justify-content:space-between;align-items:center}.nav a{color:#90caf9;text-decoration:none;font-size:13px;margin-left:16px}.main{max-width:640px;margin:40px auto;padding:0 20px}.card{background:#fff;border-radius:10px;box-shadow:0 2px 12px rgba(0,0,0,0.08);padding:28px;margin-bottom:20px}h2{font-size:17px;color:#1a3c5e;margin:0 0 18px}.row{display:flex;gap:14px}.row>div{flex:1}label{display:block;font-size:12px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:5px}input,select{width:100%;padding:9px 11px;border:1px solid #e2e8f0;border-radius:6px;box-sizing:border-box;font-size:14px;color:#1e293b}.otp-info{background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:14px;font-size:13px;color:#1d4ed8;margin-bottom:16px}.btn{padding:11px 24px;background:#1a3c5e;color:#fff;border:none;border-radius:7px;cursor:pointer;font-size:14px;font-weight:600}.btn-outline{background:#fff;color:#1a3c5e;border:1px solid #1a3c5e;margin-right:10px}</style>
+</head>
+<body>
+<nav class="nav">
+  <strong>SecureBank</strong>
+  <div>
+    <a href="#">Home</a>
+    <a href="#">Accounts</a>
+    <a href="#">Transfer</a>
+    <a href="#">Help</a>
+  </div>
+</nav>
+
+<div class="main">
+  <div class="card">
+    <h2>Fund Transfer – NEFT</h2>
+    <div class="otp-info">🔒 This transaction is secured. An OTP will be sent to your registered mobile.</div>
+    
+    <div class="row">
+      <div>
+        <label>From Account</label>
+        <select>
+          <option>SB Account – XXXX1234 (₹45,230)</option>
+          <option>SB Account – XXXX5678 (₹12,100)</option>
+        </select>
+      </div>
+      <div>
+        <label>Transfer Amount (₹)</label>
+        <input type="number" placeholder="0.00">
+      </div>
+    </div>
+    
+    <div style="margin-top:16px">
+      <label>Beneficiary Account Number</label>
+      <input type="text" name="account" placeholder="Enter account number">
+    </div>
+    <div class="row" style="margin-top:12px">
+      <div>
+        <label>IFSC Code</label>
+        <input type="text" placeholder="SBIN0001234">
+      </div>
+      <div>
+        <label>Beneficiary Name</label>
+        <input type="text" autocomplete="name" placeholder="Account holder name">
+      </div>
+    </div>
+    <div style="margin-top:16px">
+      <label>Remarks (Optional)</label>
+      <input type="text" placeholder="e.g., Rent for October">
+    </div>
+    
+    <div style="margin-top:22px">
+      <button class="btn btn-outline" type="button">Back</button>
+      <button class="btn" type="button">Review</button>
+    </div>
+  </div>
+</div>
+</body></html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><title>Fixture 01 – Standard HTML Form</title>
+<style>body{font-family:sans-serif;max-width:480px;margin:40px auto;padding:0 20px}label{display:block;margin-top:16px;font-weight:600}input,select{width:100%;padding:8px;margin-top:4px;border:1px solid #ccc;border-radius:4px;box-sizing:border-box}.btn{margin-top:24px;padding:10px 24px;background:#2563eb;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:15px}</style>
+</head>
+<body>
+<h1>Government Registration Form</h1>
+<form>
+  <label>Full Name <input type="text" autocomplete="name" placeholder="Enter full name"></label>
+  <label>Email Address <input type="email" autocomplete="email" placeholder="you@example.com"></label>
+  <label>Phone Number <input type="tel" autocomplete="tel" placeholder="+91 00000 00000"></label>
+  <label>Aadhaar Number <input type="text" name="aadhaar" placeholder="0000 0000 0000"></label>
+  <label>PAN Number <input type="text" name="pan" placeholder="ABCDE0000F"></label>
+  <label>State
+    <select autocomplete="address-level1">
+      <option value="">Select state</option>
+      <option>Maharashtra</option>
+      <option>Karnataka</option>
+      <option>Delhi</option>
+    </select>
+  </label>
+  <label><input type="checkbox" name="consent"> I agree to the terms</label>
+  <button type="button" class="btn">Continue</button>
+</form>
+</body></html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><title>Fixture 05 – Canvas UI (Critical Gap Test)</title>
+<style>body{font-family:sans-serif;margin:30px;background:#f9fafb}h1{font-size:18px}p{color:#666;font-size:14px}canvas{border:1px solid #e5e7eb;border-radius:8px;display:block}</style>
+</head>
+<body>
+<h1>Canvas-Rendered Application Form</h1>
+<p>The form below is rendered entirely on a &lt;canvas&gt;. No DOM inputs exist.</p>
+
+<!-- THE CRITICAL FIXTURE: A canvas that visually draws a form -->
+<canvas id="formCanvas" width="480" height="380"></canvas>
+
+<script>
+// Render a realistic-looking form entirely in canvas pixels
+const canvas = document.getElementById('formCanvas');
+const ctx = canvas.getContext('2d');
+
+// Background
+ctx.fillStyle = '#ffffff';
+ctx.fillRect(0, 0, 480, 380);
+
+// Helper: draw a labeled input field
+function drawField(label, x, y, w, h, placeholder) {
+  ctx.fillStyle = '#374151';
+  ctx.font = '13px sans-serif';
+  ctx.fillText(label, x, y - 6);
+  ctx.strokeStyle = '#d1d5db';
+  ctx.lineWidth = 1;
+  ctx.strokeRect(x, y, w, h);
+  ctx.fillStyle = '#9ca3af';
+  ctx.font = '13px sans-serif';
+  ctx.fillText(placeholder, x + 10, y + h / 2 + 5);
+}
+
+// Helper: draw a button
+function drawButton(label, x, y, w, h, color) {
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.roundRect(x, y, w, h, 7);
+  ctx.fill();
+  ctx.fillStyle = '#ffffff';
+  ctx.font = 'bold 14px sans-serif';
+  const textW = ctx.measureText(label).width;
+  ctx.fillText(label, x + (w - textW) / 2, y + h / 2 + 5);
+}
+
+// Helper: draw checkbox
+function drawCheckbox(label, x, y) {
+  ctx.strokeStyle = '#6366f1';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(x, y, 16, 16);
+  ctx.fillStyle = '#374151';
+  ctx.font = '13px sans-serif';
+  ctx.fillText(label, x + 24, y + 12);
+}
+
+// Draw the form fields
+ctx.fillStyle = '#111827';
+ctx.font = 'bold 16px sans-serif';
+ctx.fillText('Beneficiary Registration', 20, 30);
+
+drawField('Full Name', 20, 50, 440, 36, 'Enter full name');
+drawField('Aadhaar Number', 20, 120, 200, 36, '0000 0000 0000');
+drawField('Mobile Number', 240, 120, 220, 36, '+91 XXXXX XXXXX');
+drawField('Address', 20, 190, 440, 36, 'Enter address');
+drawField('City', 20, 260, 200, 36, 'City name');
+drawField('PIN Code', 240, 260, 100, 36, '000000');
+
+drawCheckbox('I confirm the above details are correct', 20, 320);
+
+// The actionable buttons — these are the CRITICAL gap
+// DOM scanner will see only a <canvas> tag, not these drawn buttons
+drawButton('Back', 20, 340, 90, 36, '#6b7280');
+drawButton('Continue', 360, 340, 100, 36, '#2563eb');
+</script>
+</body></html>

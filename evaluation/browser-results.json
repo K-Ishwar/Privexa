@@ -1,0 +1,37 @@
+{
+  "environment": "Chromium 141 headless; content-script messaging harness, not installed-extension validation",
+  "checks": [
+    {
+      "name": "Initial runtime and no raw text in scene",
+      "status": "passed"
+    },
+    {
+      "name": "Submit disabled despite Continue label",
+      "status": "passed"
+    },
+    {
+      "name": "Safe Continue action executes",
+      "status": "passed"
+    },
+    {
+      "name": "Text mutation invalidates stale scene",
+      "status": "passed"
+    },
+    {
+      "name": "Unknown plan fields rejected",
+      "status": "passed"
+    },
+    {
+      "name": "Changed input value rejects stale target without event",
+      "status": "passed"
+    },
+    {
+      "name": "Repeated injection remains usable",
+      "status": "passed"
+    },
+    {
+      "name": "Real FastAPI DEMO round-trip to browser action",
+      "status": "passed"
+    }
+  ]
+}

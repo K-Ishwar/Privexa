@@ -1,0 +1,23 @@
+{
+  "05-canvas-form": {
+    "expected_elements": [
+      { "label": "INPUT", "box": { "x": 20, "y": 50, "width": 440, "height": 36 } },
+      { "label": "INPUT", "box": { "x": 20, "y": 120, "width": 200, "height": 36 } },
+      { "label": "INPUT", "box": { "x": 240, "y": 120, "width": 220, "height": 36 } },
+      { "label": "INPUT", "box": { "x": 20, "y": 190, "width": 440, "height": 36 } },
+      { "label": "INPUT", "box": { "x": 20, "y": 260, "width": 200, "height": 36 } },
+      { "label": "INPUT", "box": { "x": 240, "y": 260, "width": 100, "height": 36 } },
+      { "label": "CHECKBOX", "box": { "x": 20, "y": 320, "width": 16, "height": 16 } },
+      { "label": "BUTTON", "box": { "x": 20, "y": 340, "width": 90, "height": 36 } },
+      { "label": "BUTTON", "box": { "x": 360, "y": 340, "width": 100, "height": 36 } }
+    ]
+  },
+  "09-image-with-pii": {
+    "expected_elements": [
+      { "label": "PII_TEXT", "box": { "x": 150, "y": 80, "width": 150, "height": 16 } },
+      { "label": "PII_TEXT", "box": { "x": 150, "y": 100, "width": 120, "height": 16 } },
+      { "label": "PII_TEXT", "box": { "x": 150, "y": 150, "width": 180, "height": 20 } },
+      { "label": "PERSON_FACE", "box": { "x": 0, "y": 0, "width": 120, "height": 150 } }
+    ]
+  }
+}

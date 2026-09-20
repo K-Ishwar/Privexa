@@ -1,0 +1,19 @@
+{
+  "generated": "2026-09-17T11:02:31.767Z",
+  "text_pii": {
+    "tp": 22,
+    "fp": 0,
+    "tn": 7,
+    "fn": 0,
+    "precision": 1,
+    "recall": 1,
+    "f1": 1,
+    "failures": []
+  },
+  "dom_hints": {
+    "correct": 8,
+    "total": 8,
+    "accuracy": 1,
+    "failures": []
+  }
+}
