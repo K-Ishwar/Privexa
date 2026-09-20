@@ -134,7 +134,8 @@ function draw(s:Scene){
   const scale=Math.min(canvas.width/s.viewport.width,canvas.height/s.viewport.height);
   const ox=(canvas.width-s.viewport.width*scale)/2;
   ctx.font='9px system-ui';
-  for(const e of [...s.elements,...s.vision.regions]){
+  // Draw DOM Elements
+  for(const e of s.elements){
     const {x,y,width,height}=e.box;
     const px=ox+x*scale,py=y*scale,w=width*scale,h=height*scale;
     ctx.fillStyle=e.label.startsWith('[')?'#183c40':'#263753';
@@ -142,6 +143,18 @@ function draw(s:Scene){
     ctx.fillRect(px,py,w,h);ctx.strokeRect(px,py,w,h);
     ctx.save();ctx.beginPath();ctx.rect(px,py,w,h);ctx.clip();
     ctx.fillStyle='#d5eee7';ctx.fillText(e.label,px+2,py+Math.min(11,h));
+    ctx.restore();
+  }
+  
+  // Draw YOLO Vision Regions (distinct yellow color)
+  for(const r of s.vision.regions){
+    const {x,y,width,height}=r.box;
+    const px=ox+x*scale,py=y*scale,w=width*scale,h=height*scale;
+    ctx.fillStyle='rgba(234, 179, 8, 0.15)'; // translucent yellow
+    ctx.strokeStyle='#eab308'; // solid yellow
+    ctx.fillRect(px,py,w,h);ctx.strokeRect(px,py,w,h);
+    ctx.save();ctx.beginPath();ctx.rect(px,py,w,h);ctx.clip();
+    ctx.fillStyle='#fef08a';ctx.fillText(`👁️ YOLO: ${r.label}`,px+2,py+Math.min(11,h));
     ctx.restore();
   }
 }
@@ -204,6 +217,45 @@ async function redactImage(dataUrl:string,s:Scene):Promise<string>{
   });
 }
 
+async function generateYoloPreview(dataUrl:string, yoloDetections: any[], viewport: {width: number, height: number}):Promise<string>{
+  return new Promise((resolve,reject)=>{
+    const img=new Image();
+    img.onload=()=>{
+      const canvas=document.createElement('canvas');
+      canvas.width=img.width;canvas.height=img.height;
+      const ctx=canvas.getContext('2d')!;
+      ctx.drawImage(img,0,0);
+      
+      const sx=img.width/viewport.width,sy=img.height/viewport.height;
+      
+      for(const r of yoloDetections){
+        // YOLO box is relative to viewport (0 to 1) or absolute? Wait, yoloDetections gives box: {x,y,w,h} in absolute viewport coordinates?
+        // Let's assume it matches s.vision.regions format
+        const px = r.box.x*sx, py = r.box.y*sy, w = r.box.width*sx, h = r.box.height*sy;
+        ctx.fillStyle='rgba(234, 179, 8, 0.2)';
+        ctx.strokeStyle='#eab308';
+        ctx.lineWidth = 2;
+        ctx.fillRect(px,py,w,h);ctx.strokeRect(px,py,w,h);
+        ctx.save();ctx.beginPath();ctx.rect(px,py,w,h);ctx.clip();
+        ctx.font = '16px system-ui';
+        ctx.fillStyle='#fef08a';
+        ctx.fillText(`👁️ YOLO: ${r.label}`,px+4,py+20);
+        ctx.restore();
+      }
+      
+      // DEBUG OVERLAY
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+      ctx.fillRect(10, 10, 300, 40);
+      ctx.fillStyle = '#fff';
+      ctx.font = '20px system-ui';
+      ctx.fillText(`YOLO Detections: ${yoloDetections.length}`, 20, 38);
+
+      resolve(canvas.toDataURL('image/png'));
+    };
+    img.onerror=reject;img.src=dataUrl;
+  });
+}
+
 /** DEMO planner: runs on-device, zero network calls. Focus empty inputs first, then nav buttons, then DONE. */
 function demoPlanner(safe:Scene):Plan{
   const emptyInput=safe.elements.find(e=>e.role==='INPUT'&&e.state==='EMPTY');
@@ -236,6 +288,7 @@ scanButton.addEventListener('click',async()=>{
     const nlpChecked=$<HTMLInputElement>('nlp').checked;
     const goalVal = $<HTMLSelectElement>('goal').value as Goal;
     const modeVal = modeManager.getMode();
+    let yoloPreview: string | null = null;
     
     const frameResults = await api.scripting.executeScript({
       target: { tabId, allFrames: true },
@@ -274,37 +327,65 @@ scanButton.addEventListener('click',async()=>{
     const ms=performance.now()-start;
     $('latency').textContent=ms.toFixed(1);
     $('latency').className=ms<500?'latency-fast':'latency-slow';
-    if($<HTMLInputElement>('vision').checked){
+    const shouldRunVision = modeVal === 'ACCURACY' || (modeVal === 'BALANCED' && result.local.visualFallbackNeeded) || $<HTMLInputElement>('vision').checked;
+    
+    if (shouldRunVision) {
       status('Running packaged face model and YOLO locally...');
       let raw=await api.tabs.captureVisibleTab(windowId,{format:'png'});
       draft.vision=await analyzeVisual(raw,draft.viewport,(p)=>api.runtime.getURL(p));
-      draft.privacy.mode='HYBRID';
-      draft.privacy.redactedPixels=await redactImage(raw,draft);
+      // Image is NOT sent to the backend as requested by the user.
+      // draft.privacy.mode='HYBRID';
+      // draft.privacy.redactedPixels=await redactImage(raw,draft);
 
+      let rawYoloDetections: any[] = [];
       status('Running YOLO26 for missing visual elements...');
       try {
         const worker = new Worker(api.runtime.getURL('workers/vit.worker.js'), { type: 'module' });
         worker.postMessage({ type: 'INIT' });
         const yoloDetections: any[] = await new Promise((resolve, reject) => {
+          const timeout = setTimeout(() => { worker.terminate(); reject(new Error('YOLO worker timed out after 10s')); }, 10000);
           worker.onmessage = (e) => {
             if (e.data.type === 'INIT_COMPLETE') {
               worker.postMessage({ type: 'DETECT', imageUrl: raw });
             } else if (e.data.type === 'DETECT_COMPLETE') {
+              clearTimeout(timeout);
               resolve(e.data.results);
               worker.terminate();
             } else if (e.data.type === 'ERROR') {
+              clearTimeout(timeout);
               reject(new Error(e.data.error));
               worker.terminate();
             }
           };
           worker.onerror = (err) => {
-            reject(err);
+            clearTimeout(timeout);
+            reject(new Error(String(err.message || err)));
             worker.terminate();
           };
         });
+
+        console.log(`[Privexa] YOLO raw detections: ${yoloDetections.length}`, yoloDetections);
+        status(`YOLO detected ${yoloDetections.length} elements. Normalizing coordinates...`);
+
+        // Convert YOLO's physical image pixels back to CSS viewport pixels
+        const tmpImg = new Image();
+        tmpImg.src = raw;
+        await new Promise((r) => { tmpImg.onload = r; });
+        const sx = tmpImg.width / draft.viewport.width;
+        const sy = tmpImg.height / draft.viewport.height;
+        for (const det of yoloDetections) {
+          det.box.x = Math.round(det.box.x / sx);
+          det.box.y = Math.round(det.box.y / sy);
+          det.box.width = Math.round(det.box.width / sx);
+          det.box.height = Math.round(det.box.height / sy);
+        }
+
+        rawYoloDetections = yoloDetections;
         draft = mergeHybridScene(draft, yoloDetections, draft.viewport.width, draft.viewport.height);
-      } catch (err) {
-        console.error('YOLO inference failed', err);
+      } catch (err: any) {
+        const errMsg = err?.message || String(err);
+        console.error('YOLO inference failed:', errMsg, err);
+        status(`⚠️ YOLO failed: ${errMsg}`, true);
       }
       
       // Local OCR Integration
@@ -343,6 +424,7 @@ scanButton.addEventListener('click',async()=>{
         }
       }
 
+      yoloPreview = await generateYoloPreview(raw, rawYoloDetections, draft.viewport);
       raw='';
       await releaseVision();
     }
@@ -363,8 +445,13 @@ scanButton.addEventListener('click',async()=>{
     }
     scene=validateScene(draft);
     await fresh();
-    if(scene.privacy.redactedPixels){
+    if(yoloPreview){
+      $<HTMLImageElement>('redacted-preview').src=yoloPreview;
+      $('redacted-preview-container').querySelector('h4')!.textContent = 'YOLO Vision Preview';
+      $('redacted-preview-container').style.display='block';
+    } else if(scene.privacy.redactedPixels){
       $<HTMLImageElement>('redacted-preview').src=scene.privacy.redactedPixels;
+      $('redacted-preview-container').querySelector('h4')!.textContent = 'Base64 Redacted Payload Preview';
       $('redacted-preview-container').style.display='block';
     }
     $('payload').textContent=JSON.stringify(scene,null,2);

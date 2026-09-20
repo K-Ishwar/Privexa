@@ -24,10 +24,12 @@ let lastInvalidationReason = '';
 
 import { getVault, resolveToken, tokenDisplayLabel } from './vault';
 
+// Always hot-swap the scan function so extension reloads don't require page refresh
+(globalThis as any).__privexa_scan = scan;
+
 // Initialize only after module state exists.
 if (typeof window !== 'undefined' && window.top === window.self && !root[SINGLETON]) {
   root[SINGLETON] = true;
-  (globalThis as any).__privexa_scan = scan;
   installContentRuntime();
   
   // Initialize Shadow Agent
@@ -545,10 +547,15 @@ function visible(el: any): boolean {
 function clippedBox(el: any, vp: { width: number; height: number }) {
   try {
     const r = el.getBoundingClientRect();
-    const left = Math.max(0, Math.min(vp.width, Math.floor(r.left)));
-    const top = Math.max(0, Math.min(vp.height, Math.floor(r.top)));
-    const right = Math.max(left, Math.min(vp.width, Math.ceil(r.right)));
-    const bottom = Math.max(top, Math.min(vp.height, Math.ceil(r.bottom)));
+    if (!r) return { x: 0, y: 0, width: 0, height: 0 };
+    const rLeft = Number(r.left) || 0;
+    const rTop = Number(r.top) || 0;
+    const rRight = Number(r.right) || 0;
+    const rBottom = Number(r.bottom) || 0;
+    const left = Math.max(0, Math.min(vp.width, Math.floor(rLeft)));
+    const top = Math.max(0, Math.min(vp.height, Math.floor(rTop)));
+    const right = Math.max(left, Math.min(vp.width, Math.ceil(rRight)));
+    const bottom = Math.max(top, Math.min(vp.height, Math.ceil(rBottom)));
     return { x: left, y: top, width: right - left, height: bottom - top };
   } catch { return { x: 0, y: 0, width: 0, height: 0 }; }
 }

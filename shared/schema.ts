@@ -97,8 +97,9 @@ function uuid(v: unknown): string {
   return v;
 }
 function int(v: unknown, min: number, max: number): number {
-  if (typeof v !== 'number' || !Number.isFinite(v) || !Number.isInteger(v) || v < min || v > max) throw new Error('invalid integer');
-  return v;
+  if (typeof v !== 'number' || !Number.isFinite(v) || Number.isNaN(v)) return min;
+  const rounded = Math.max(min, Math.min(max, Math.round(v)));
+  return rounded;
 }
 function num(v: unknown, min: number, max: number): number {
   if (typeof v !== 'number' || !Number.isFinite(v) || v < min || v > max) throw new Error('invalid number');
@@ -169,7 +170,8 @@ export function validatePlan(value: unknown, scene: Scene): Plan {
   for (const raw of o.actions) {
     const ao = record(raw);
     // Allow optional 'value' field on FILL actions (not present on other kinds)
-    const actionKeys = ['kind', 'target', 'targetCoordinate', 'amount', 'reason'];
+    const actionKeys = ['kind', 'target', 'amount', 'reason'];
+    if (hasOwn(ao, 'targetCoordinate')) actionKeys.push('targetCoordinate');
     if (hasOwn(ao, 'value')) actionKeys.push('value');
     if (hasOwn(ao, 'resolvedValue')) actionKeys.push('resolvedValue');
     exact(ao, actionKeys);

@@ -1,4 +1,4 @@
-import { validatePlan } from './shared/schema';
+import { validatePlan } from './shared/schema.ts';
 
 const safe = {
   version: '1.0',
@@ -25,6 +25,7 @@ const plan1 = validatePlan({
 }, safe as any);
 
 const action2 = plan1.actions[0];
+console.log(action2);
 (action2 as any).resolvedValue = 'John Doe';
 
 try {

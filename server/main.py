@@ -49,7 +49,7 @@ try:  # supports `uvicorn main:app` from server/ and `server.main:app` from repo
 except ImportError:
     from schema import Action, ModelPlan, Plan, Scene, ChatRequest
 
-MAX_BODY = 128 * 1024
+MAX_BODY = 15 * 1024 * 1024
 MAX_MODEL_OUTPUT = 32 * 1024
 CLICK_LABELS = {"CONTINUE", "NEXT", "REVIEW", "BACK", "CANCEL"}
 
@@ -287,7 +287,7 @@ def _ollama_prompt(scene: Scene) -> str:
         + "\n"
         + policy
         + "\n\nThe semantic enum-only scene is:\n"
-        + scene.model_dump_json()
+        + scene.model_dump_json(exclude={"privacy": {"redactedPixels": True}})
     )
 
 
