@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Privexa Local — synthetic application demo</title>
+  <style>
+    :root { color-scheme: light; font-family: system-ui, sans-serif; line-height: 1.4; }
+    body { margin: 0; background: #f4f6fb; color: #202638; }
+    main { max-width: 54rem; margin: 2rem auto; padding: 0 1rem 3rem; }
+    .card { background: white; border: 1px solid #d8deea; border-radius: 12px; padding: 1.25rem; box-shadow: 0 4px 18px #24304d12; }
+    .notice { background: #fff9e7; border-left: 4px solid #d39b00; padding: .75rem 1rem; }
+    .identity { display: flex; gap: 1.5rem; align-items: center; margin-bottom: 1rem; }
+    .avatar { width: 7rem; height: 7rem; border-radius: 50%; object-fit: cover; border: 3px solid #e9efff; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 1rem; }
+    label { display: grid; gap: .3rem; font-weight: 650; }
+    input, select { font: inherit; padding: .55rem; border: 1px solid #9ca7bd; border-radius: 6px; }
+    .wide { grid-column: 1 / -1; }
+    .check { display: flex; align-items: center; gap: .5rem; font-weight: 500; }
+    .check input { width: 1rem; height: 1rem; }
+    [hidden] { display: none !important; }
+    .actions { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: 1.25rem; }
+    button { font: inherit; font-weight: 700; border: 0; border-radius: 6px; padding: .65rem 1rem; cursor: pointer; background: #2856c7; color: white; }
+    button.secondary { background: #e5e9f2; color: #202638; }
+    .caption { color: #5a6479; font-size: .92rem; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Sample application review</h1>
+  <p class="notice"><strong>Demo only:</strong> every value below is fictional test data. Nothing is submitted or sent anywhere.</p>
+  <section class="card" aria-labelledby="form-title">
+    <div class="identity">
+      <!-- High-resolution photo to test the face redaction model -->
+      <img src="avatar.jpg" alt="Profile Picture of Rahul" class="avatar" id="profile-img">
+      <div>
+        <h2 id="form-title">Privexa Financial Services - KYC</h2>
+        <p class="caption">Step <span id="step-number">1</span> of 2 · Semantic labels are intelligently captured locally.</p>
+        <p style="font-size: 0.9rem; margin-top: 6px; color: #4a5568;">
+          <strong>Regional Instructions:</strong><br>
+          <i>Hindi:</i> मेरा नाम राहुल शर्मा है और मैं दिल्ली में रहता हूँ। कृपया फॉर्म भरें।<br>
+          <i>Marathi:</i> माझे नाव सचिन तेंडुलकर आहे. मी मुंबईत राहतो.
+        </p>
+      </div>
+    </div>
+
+    <form id="synthetic-form" autocomplete="off">
+      <section id="step-one" aria-labelledby="step-one-title">
+        <h3 id="step-one-title">Basic details</h3>
+        <div class="grid">
+          <label>Full name <input name="full-name" type="text" placeholder="Aarav Example" aria-label="Full name"></label>
+          <label>Email address <input name="email" type="email" placeholder="aarav@example.invalid" aria-label="Email address"></label>
+          <label>Phone number <input name="phone" type="tel" placeholder="0000000000" aria-label="Phone number"></label>
+          <label>Aadhaar number <input name="aadhaar" type="text" inputmode="numeric" placeholder="०००० ०००० ००००" aria-label="Aadhaar number"></label>
+          <label>PAN <input name="pan" type="text" placeholder="ABCDE0000F" aria-label="PAN"></label>
+          <label>State <select name="state" aria-label="State"><option value="">Choose a state</option><option>Test State</option><option>Sample Union Territory</option></select></label>
+        </div>
+        <div class="actions">
+          <button id="continue" type="button">Continue</button>
+        </div>
+      </section>
+
+      <section id="step-two" aria-labelledby="step-two-title" hidden>
+        <h3 id="step-two-title">Address and consent</h3>
+        <div class="grid">
+          <label class="wide">Address <input name="address" type="text" placeholder="12 Example Lane, Demo Nagar" aria-label="Address"></label>
+          <label>Password <input name="password" type="password" placeholder="Not a real password" aria-label="Password"></label>
+          <label>Preferred language <select name="language" aria-label="Preferred language"><option>English</option><option>हिन्दी</option><option>मराठी</option></select></label>
+          <label class="check wide"><input name="review-consent" type="checkbox" aria-label="Review consent"> I confirm this is synthetic demo data.</label>
+        </div>
+        <!-- Canvas text is local fallback input for the vision worker; it contains no user data. -->
+        <canvas id="demo-canvas" width="520" height="72" aria-label="Synthetic canvas text">DEMO TEXT ONLY</canvas>
+        <p class="caption">Canvas fallback: DEMO TEXT ONLY (not OCR input).</p>
+        <div class="actions">
+          <button id="back" class="secondary" type="button">Back</button>
+          <button id="review" type="button">Review</button>
+        </div>
+      </section>
+    </form>
+  </section>
+</main>
+<script>
+  (() => {
+    const first = document.getElementById('step-one');
+    const second = document.getElementById('step-two');
+    const number = document.getElementById('step-number');
+    document.getElementById('continue').addEventListener('click', () => {
+      first.hidden = true;
+      second.hidden = false;
+      number.textContent = '2';
+      document.getElementById('step-two-title').focus?.();
+    });
+    document.getElementById('back').addEventListener('click', () => {
+      second.hidden = true;
+      first.hidden = false;
+      number.textContent = '1';
+    });
+    document.getElementById('review').addEventListener('click', () => {
+      window.alert('Preview only — no submission is implemented.');
+    });
+    const canvas = document.getElementById('demo-canvas');
+    const context = canvas.getContext('2d');
+    if (context) {
+      context.fillStyle = '#eef2ff';
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      context.fillStyle = '#202638';
+      context.font = 'bold 28px system-ui, sans-serif';
+      context.fillText('DEMO TEXT ONLY', 18, 45);
+    }
+  })();
+</script>
+</body>
+</html>

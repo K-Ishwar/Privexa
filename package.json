@@ -1,0 +1,28 @@
+{
+  "name": "privexa-local-sih26171",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "setup:vision": "node vision/setup-assets.mjs --download",
+    "test:browser": "node tests/browser.mjs",
+    "demo": "python -m http.server 8080 --bind 127.0.0.1 --directory demo",
+    "experiment:step1": "node evaluation/experiment-step1.mjs",
+    "experiment:step2": "node evaluation/experiment-step2.mjs",
+    "experiment:step3": "node evaluation/experiment-step3-yolo.mjs",
+    "e2e:demo": "node tests/e2e-demo.mjs",
+    "benchmark:pii": "node evaluation/pii-benchmark.mjs"
+  },
+  "dependencies": {
+    "@huggingface/transformers": "^4.2.0",
+    "@mediapipe/tasks-vision": "0.10.22-rc.20250304",
+    "onnxruntime-web": "^1.20.1",
+    "tesseract.js": "^7.0.0"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.5",
+    "playwright": "1.56.1",
+    "typescript": "5.8.3"
+  }
+}

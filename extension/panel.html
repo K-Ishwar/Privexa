@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Privexa</title>
+  <link rel="stylesheet" href="panel.css">
+</head>
+<body>
+  <header>
+    <div class="logo">P<span>•</span></div>
+    <div>
+      <h1>Privexa</h1>
+      <p>PRIVATE PERCEPTION · SIH 26171</p>
+    </div>
+    <span class="badge">ON DEVICE</span>
+  </header>
+  
+  <main>
+    <section class="intro">
+      <h2>Your screen. Not your secrets.</h2>
+      <p>Read locally → replace with semantic labels → approve → act.</p>
+    </section>
+
+    <!-- NEW TRI-MODE SELECTOR UI -->
+    <section class="mode-section">
+      <div id="smart-suggestion" class="suggestion-chip">
+        ✨ Smart Suggestion: <strong id="suggestion-mode">...</strong>
+        <p id="suggestion-reason">Analyzing page...</p>
+      </div>
+
+      <div class="mode-cards">
+        <div class="mode-card" data-mode="ACCURACY">
+          <div class="mode-icon">🔴</div>
+          <div class="mode-name">Accuracy</div>
+          <div class="mode-desc">3-6 sec</div>
+        </div>
+        <div class="mode-card" data-mode="BALANCED">
+          <div class="mode-icon">🟡</div>
+          <div class="mode-name">Balanced</div>
+          <div class="mode-desc">1.5-4 sec</div>
+        </div>
+        <div class="mode-card" data-mode="LATENCY">
+          <div class="mode-icon">🟢</div>
+          <div class="mode-name">Speed</div>
+          <div class="mode-desc">&lt;2.5 sec</div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- VAULT: My Profile Section -->
+    <section id="vault-section" class="vault-section">
+      <div class="vault-header" id="vault-toggle" role="button" aria-expanded="false" aria-controls="vault-body">
+        <div class="vault-header-left">
+          <span class="vault-lock-icon">🔐</span>
+          <div>
+            <span class="vault-title">My Profile</span>
+            <span class="vault-subtitle">AES-256 encrypted · stored locally · never sent</span>
+          </div>
+        </div>
+        <span class="vault-chevron" id="vault-chevron">▼</span>
+      </div>
+      <div class="vault-body" id="vault-body" aria-hidden="true">
+        <div class="vault-grid">
+          <label class="vault-field">
+            <span>Full Name</span>
+            <input id="vault-NAME" type="text" autocomplete="off" placeholder="e.g. Priya Sharma">
+          </label>
+          <label class="vault-field">
+            <span>Email</span>
+            <input id="vault-EMAIL" type="email" autocomplete="off" placeholder="e.g. priya@example.com">
+          </label>
+          <label class="vault-field">
+            <span>Phone</span>
+            <input id="vault-PHONE" type="tel" autocomplete="off" placeholder="e.g. 9876543210">
+          </label>
+          <label class="vault-field">
+            <span>Address</span>
+            <input id="vault-ADDRESS" type="text" autocomplete="off" placeholder="e.g. 12, MG Road, Bengaluru">
+          </label>
+          <label class="vault-field">
+            <span>Aadhaar</span>
+            <input id="vault-AADHAAR" type="text" autocomplete="off" placeholder="●●●● ●●●● ●●●●">
+          </label>
+          <label class="vault-field">
+            <span>PAN</span>
+            <input id="vault-PAN" type="text" autocomplete="off" placeholder="e.g. ABCDE1234F">
+          </label>
+          <label class="vault-field vault-field--full">
+            <span>Password (for this site)</span>
+            <input id="vault-PASSWORD" type="password" autocomplete="off" placeholder="site-specific password">
+          </label>
+        </div>
+        <div class="vault-actions">
+          <button id="vault-save" class="vault-save-btn">💾 Save locally (encrypted)</button>
+          <span id="vault-status" class="vault-save-status"></span>
+        </div>
+        <p class="vault-note">🔒 This data is encrypted with AES-256 and stored only in your browser. It is resolved locally when the agent sends a <code>{{TOKEN}}</code> — the real value is never transmitted.</p>
+      </div>
+    </section>
+
+    <div class="controls">
+      <label>Task
+        <select id="goal">
+          <option value="REVIEW_FORM">Review form</option>
+          <option value="NEXT_STEP">Find next step</option>
+          <option value="SCROLL_DOWN">Scroll down</option>
+        </select>
+      </label>
+      <label>Local planner token
+        <input id="token" type="password" placeholder="PRIVEXA_TOKEN" autocomplete="off">
+      </label>
+    </div>
+    
+    <label class="check"><input type="checkbox" id="vision"> Run local face model (requires downloaded assets)</label>
+    <label class="check"><input type="checkbox" id="nlp"> Enable Multi-lingual NLP (Downloads ~40MB ONNX model)</label>
+    
+    <div class="actions">
+      <button id="scan">1 · Inspect this tab</button>
+      <button id="send" disabled>2 · Approve &amp; send labels</button>
+      <button id="execute" disabled>3 · Approve action</button>
+      <button id="autofill" disabled class="autofill-btn">⚡ Auto-fill all fields</button>
+    </div>
+    
+    <p id="status" role="status" aria-live="polite">No page has been read. Activate only on pages you are allowed to inspect.</p>
+    
+    <div class="stats">
+      <div><b id="count">—</b><span>visible elements</span></div>
+      <div><b id="latency">—</b><span>local scan ms</span></div>
+      <div><b id="model">NOT RUN</b><span>vision status</span></div>
+      <div><b>0</b><span>raw pixels uploaded</span></div>
+    </div>
+    
+    <section>
+      <div class="section-title">
+        <h3>Semantic screen map</h3><span>Reconstructed, not a screenshot</span>
+      </div>
+      <canvas id="map" width="720" height="240" aria-label="Semantic-only page map"></canvas>
+      <div id="redacted-preview-container">
+        <h4>Base64 Redacted Payload Preview</h4>
+        <img id="redacted-preview" alt="Redacted base64 image sent to server">
+      </div>
+      <p class="note">Private information becomes [PERSON_NAME], [EMAIL], [IMAGE], etc. Unknown text becomes [PRIVATE_TEXT]. The original page is not modified.</p>
+    </section>
+    
+    <section>
+      <h3>Exact outgoing payload <small>loopback only · no automatic send</small></h3>
+      <pre id="payload">Inspect a tab to see the complete request before approving.</pre>
+    </section>
+    
+    <section>
+      <h3>Proposed action</h3>
+      <pre id="plan">Awaiting sanitized context.</pre>
+    </section>
+    
+    <footer>
+      Prototype v0.1 · DEMO is a rules planner, not an LLM. OLLAMA mode uses your local model. No OCR or contextual NER yet. Labels and geometry still reveal some page structure.
+    </footer>
+  </main>
+  
+  <script type="module" src="panel.js"></script>
+</body>
+</html>

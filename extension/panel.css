@@ -1,0 +1,43 @@
+:root{--bg:#0f172a;--panel:#1e293b;--text:#e2e8f0;--accent:#38bdf8;--accent-hover:#0284c7;--border:#334155;--error:#f87171;--success:#4ade80}body{background:var(--bg);color:var(--text);font-family:system-ui,sans-serif;margin:0;padding:16px;width:380px;box-sizing:border-box;line-height:1.4}header{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border)}.logo{width:32px;height:32px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:18px}.logo span{color:var(--bg)}h1{margin:0;font-size:16px;font-weight:600}header p{margin:2px 0 0;font-size:11px;color:#94a3b8;letter-spacing:0.5px}.badge{margin-left:auto;font-size:10px;background:var(--panel);padding:4px 8px;border-radius:12px;color:var(--accent);font-weight:600;border:1px solid var(--border)}.intro{background:var(--panel);padding:12px;border-radius:8px;margin-bottom:8px}.intro h2{margin:0 0 4px;font-size:13px;color:#fff}.intro p{margin:0;font-size:12px;color:#cbd5e1}.controls{display:flex;flex-direction:column;gap:12px;margin-bottom:16px}label{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:500;color:#cbd5e1}input,select{background:var(--panel);border:1px solid var(--border);color:var(--text);padding:8px;border-radius:6px;font-size:13px}input:focus,select:focus{outline:none;border-color:var(--accent)}label.check{flex-direction:row;align-items:center;gap:8px;cursor:pointer;margin-bottom:16px;padding:8px;background:var(--panel);border-radius:6px;border:1px solid transparent}label.check:hover{border-color:var(--border)}label.check input{margin:0}.actions{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}button{background:var(--panel);color:var(--text);border:1px solid var(--border);padding:10px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.15s;text-align:left;display:flex;align-items:center}button:hover:not(:disabled){border-color:var(--accent);background:#253347}button:disabled{opacity:0.5;cursor:not-allowed}#scan{background:var(--accent);color:#fff;border-color:transparent;text-align:center;justify-content:center}#scan:hover:not(:disabled){background:var(--accent-hover)}#status{font-size:12px;padding:12px;background:var(--panel);border-radius:6px;border-left:3px solid var(--accent);margin:0 0 16px;white-space:pre-wrap}.error{border-left-color:var(--error)!important;color:var(--error)}.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}.stats div{background:var(--panel);padding:8px 12px;border-radius:6px;display:flex;flex-direction:column;border:1px solid var(--border)}.stats b{font-size:16px;color:#fff}.stats span{font-size:10px;color:#94a3b8;text-transform:uppercase;letter-spacing:0.5px}.latency-fast{color:var(--success)!important;text-shadow:0 0 5px rgba(74,222,128,0.4)}.latency-slow{color:var(--error)!important}section{margin-bottom:20px;border-top:1px solid var(--border);padding-top:16px}.section-title{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}h3{margin:0;font-size:13px;color:#fff}.section-title span{font-size:11px;color:#94a3b8}canvas{width:100%;height:auto;background:var(--panel);border:1px solid var(--border);border-radius:6px;margin-bottom:8px}#redacted-preview-container{display:none;margin-top:10px}#redacted-preview{max-width:100%;border:1px solid #444;border-radius:4px}.note{font-size:11px;color:#94a3b8;margin:0;font-style:italic}pre{background:var(--panel);border:1px solid var(--border);padding:12px;border-radius:6px;font-size:11px;overflow-x:auto;margin:8px 0 0;color:#a5b4fc;max-height:150px;white-space:pre-wrap;word-wrap:break-word}h3 small{color:#94a3b8;font-weight:400;margin-left:8px}.suggestion-chip{background:var(--panel);border:1px solid #6366f1;border-radius:8px;padding:10px 12px;margin-bottom:12px;font-size:12px;color:#e0e7ff;border-left:4px solid #6366f1}.suggestion-chip p{margin:4px 0 0;font-size:11px;color:#a5b4fc}.mode-section{margin-bottom:16px;border-top:none;padding-top:0}.mode-cards{display:flex;gap:8px}.mode-card{flex:1;background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center;cursor:pointer;transition:all 0.15s;opacity:0.6}.mode-card:hover{opacity:0.8;background:#253347}.mode-card.active{opacity:1;border-color:var(--accent);background:rgba(56,189,248,0.1);box-shadow:0 0 0 1px var(--accent)}.mode-icon{font-size:16px;margin-bottom:4px}.mode-name{font-size:12px;font-weight:600;color:#fff}.mode-desc{font-size:10px;color:#94a3b8}footer{margin-top:24px;font-size:10px;color:#64748b;text-align:center;border-top:1px solid var(--border);padding-top:16px}
+
+/* ── Vault Section ─────────────────────────────────────────────────────────── */
+.vault-section{background:var(--panel);border:1px solid #4f46e5;border-radius:10px;margin-bottom:16px;overflow:hidden;transition:border-color 0.2s}
+.vault-section:hover{border-color:#6366f1}
+.vault-header{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;cursor:pointer;user-select:none}
+.vault-header-left{display:flex;align-items:center;gap:10px}
+.vault-lock-icon{font-size:20px;line-height:1}
+.vault-title{display:block;font-size:13px;font-weight:700;color:#c7d2fe}
+.vault-subtitle{display:block;font-size:10px;color:#6366f1;letter-spacing:0.3px;margin-top:1px}
+.vault-chevron{font-size:11px;color:#6366f1;transition:transform 0.25s;transform:rotate(0deg)}
+.vault-chevron.open{transform:rotate(180deg)}
+.vault-body{max-height:0;overflow:hidden;transition:max-height 0.35s cubic-bezier(0.4,0,0.2,1),padding 0.2s}
+.vault-body.open{max-height:600px;padding:0 14px 14px}
+.vault-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.vault-field{display:flex;flex-direction:column;gap:4px;font-size:11px;font-weight:600;color:#a5b4fc}
+.vault-field--full{grid-column:1/-1}
+.vault-field input{background:#0f172a;border:1px solid #334155;color:var(--text);padding:7px 9px;border-radius:6px;font-size:12px}
+.vault-field input:focus{outline:none;border-color:#6366f1;box-shadow:0 0 0 2px rgba(99,102,241,0.2)}
+.vault-actions{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.vault-save-btn{background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;border:none;padding:8px 16px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;transition:opacity 0.15s;display:inline-flex;align-items:center;gap:6px}
+.vault-save-btn:hover{opacity:0.85}
+.vault-save-status{font-size:11px;color:var(--success);opacity:0;transition:opacity 0.3s}
+.vault-save-status.visible{opacity:1}
+.vault-note{margin:0;font-size:10px;color:#64748b;line-height:1.5}
+.vault-note code{background:#1e293b;color:#a5b4fc;padding:1px 4px;border-radius:3px;font-size:10px}
+
+/* ── Auto-fill Button ──────────────────────────────────────────────────────── */
+.autofill-btn{background:linear-gradient(135deg,#0f766e,#0d9488)!important;color:#fff!important;border-color:transparent!important;justify-content:center;font-size:12px!important;letter-spacing:0.3px}
+.autofill-btn:hover:not(:disabled){background:linear-gradient(135deg,#0d9488,#0f766e)!important;opacity:0.9}
+.autofill-btn:disabled{opacity:0.35!important}
+
+/* ── CLICK Confirm Dialog ──────────────────────────────────────────────────── */
+#privexa-confirm-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;z-index:999999;backdrop-filter:blur(4px)}
+.privexa-confirm-box{background:#1e293b;border:1px solid #4f46e5;border-radius:14px;padding:24px;max-width:320px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.5);text-align:center}
+.privexa-confirm-box h4{margin:0 0 8px;font-size:15px;color:#e2e8f0}
+.privexa-confirm-box p{margin:0 0 20px;font-size:12px;color:#94a3b8;line-height:1.5}
+.privexa-confirm-btns{display:flex;gap:10px;justify-content:center}
+.privexa-confirm-btns button{padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;min-width:90px}
+.btn-proceed{background:#4f46e5;color:#fff}
+.btn-proceed:hover{background:#6366f1}
+.btn-cancel{background:#374151;color:#e2e8f0}
+.btn-cancel:hover{background:#4b5563}
